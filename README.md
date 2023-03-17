@@ -1,8 +1,16 @@
 # myPOS-Smart-SDK
 
-This repository provides a guidance on integrating an Android app with a myPOS Smart device. Once integrated, the app will be able to communicate with the core device components in order to accept card payments (including but not limited to VISA, Mastercard, UnionPay International, JCB, Bancontact). myPOS-Smart-SDK complеments a Smart POS terminal in order to initiate transaction, complete all steps for processing payment, make refund to the customer card account and print a custom bill slip using the device printer. The built-in functionalities of myPOS-Smart-SDK allow you to send Payment Requests, manage operations for the first and second SAM component the myPOS Smart device has and print bitmap image integrated to the receipt (e.g. QR Code).
+This repository provides a guidance on integrating an Android app with a myPOS Smart device. Once integrated, the app
+will be able to communicate with the core device components in order to accept card payments (including but not limited
+to VISA, Mastercard, UnionPay International, JCB, Bancontact). myPOS-Smart-SDK complеments a Smart POS terminal in order
+to initiate transaction, complete all steps for processing payment, make refund to the customer card account and print a
+custom bill slip using the device printer. The built-in functionalities of myPOS-Smart-SDK allow you to send Payment
+Requests, manage operations for the first and second SAM component the myPOS Smart device has and print bitmap image
+integrated to the receipt (e.g. QR Code).
 
-No sensitive card data is ever passed through or stored on myPOS Smart device. All data is encrypted by the core card terminal module, which has been fully certified to the highest industry standards (PCI, EMV I and II, Visa, MasterCard, Amex).
+No sensitive card data is ever passed through or stored on myPOS Smart device. All data is encrypted by the core card
+terminal module, which has been fully certified to the highest industry standards (PCI, EMV I and II, Visa, MasterCard,
+Amex).
 
 ### Table of Contents
 
@@ -10,30 +18,30 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
 * [Usage](#Usage)
 
-  * [Receive POS info](#receive-pos-info)
+    * [Receive POS info](#receive-pos-info)
 
-  * [Process a checkout](#process-a-checkout)
+    * [Process a checkout](#process-a-checkout)
 
-  * [Refund request](#refund-request)
-  
-  * [Payment Request](#payment-request)
-  
-  * [Void Request](#void-request)
-  
-  * [Pre-Authorization Request](#pre-authorization-request)
-  
-   * [PL GiftCard Request](#pl-giftcard-request)
-  
-  * [SAM Module operation](#sam-module-operation)
+    * [Refund request](#refund-request)
 
-  * [Print the last transaction receipt](#print-the-last-transaction-receipt)
+    * [Payment Request](#payment-request)
 
-  * [Print a custom receipt](#print-a-custom-receipt)
-  
-  * [Barcode/QR Scanner](#barcodeqr-scanner)
-  
-  * [Get Last Transaction data](#get-last-transaction-data)
-  
+    * [Void Request](#void-request)
+
+    * [Pre-Authorization Request](#pre-authorization-request)
+
+    * [PL GiftCard Request](#pl-giftcard-request)
+
+    * [SAM Module operation](#sam-module-operation)
+
+    * [Print the last transaction receipt](#print-the-last-transaction-receipt)
+
+    * [Print a custom receipt](#print-a-custom-receipt)
+
+    * [Barcode/QR Scanner](#barcodeqr-scanner)
+
+    * [Get Last Transaction data](#get-last-transaction-data)
+
 * [Response](#response)
 
 ## Installation
@@ -55,27 +63,28 @@ implementation 'com.mypos:mypossmartsdk:1.0.5'
 ```
 
 ### Additional functions:
--	Payment Requests, 
--	Managing operations of first and second SAM component of myPOS Smart device
--	Print bitmap image integrated to the receipt (e.g. QR Code)
-*In order to use additional functions listed above you need to have installed myPOS OS version 0.0.7. myPOS OS Version can be checked Only when device is in “Debug Mode” under “About” submenu in myPOS Terminal App.
- 
+
+- Payment Requests,
+- Managing operations of first and second SAM component of myPOS Smart device
+- Print bitmap image integrated to the receipt (e.g. QR Code)
+  *In order to use additional functions listed above you need to have installed myPOS OS version 0.0.7. myPOS OS Version
+  can be checked Only when device is in “Debug Mode” under “About” submenu in myPOS Terminal App.
 
 # Usage
 
 Once the SDK is added to your project, using the Payment API can be done with the provided helper classes.
 
-
 ### Receive POS info
 
 Add this to your AndroidManifest.xml file
+
 ```xml
 <queries>
 	<package android:name="com.mypos" />
 </queries>
 ```
 
-Here you can find simple info about myPOS terminal like	TID, currency name, currency code, merchant info, etc.
+Here you can find simple info about myPOS terminal like TID, currency name, currency code, merchant info, etc.
 
 ```java
 MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
@@ -87,7 +96,6 @@ MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
 ```
 
 ### Process a checkout
-
 
 ##### 1. Perform the payment
 
@@ -129,7 +137,6 @@ payment.setGiftCardTransaction(true)
  MyPOSAPI.openPaymentActivity(MainActivity.this, payment, PAYMENT_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
 
-
 ##### 2. Handle the result
 
 In your calling Activity, override the ``onActivityResult`` method to handle the result of the payment:
@@ -162,7 +169,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-Checking if the transaction is approved can be done by reading the ``transaction_approved`` boolean extra from the response:
+Checking if the transaction is approved can be done by reading the ``transaction_approved`` boolean extra from the
+response:
 
 ```java
 boolean transaction_approved = data.getBooleanExtra("transaction_approved", false);
@@ -175,9 +183,7 @@ if (transaction_approved) {
 }
 ```
 
-
 ### Refund request
-
 
 ##### 1. Perform the refund
 
@@ -208,7 +214,8 @@ MyPOSAPI.openRefundActivity(MainActivity.this, refund, REFUND_REQUEST_CODE /*, s
 
 ##### 2. Handle the result
 
-The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the refund:
+The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of
+the refund:
 
 ```java
 @Override
@@ -240,7 +247,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```
 
 ### Payment request
-This functionality allows a merchant to create payment request and send it as a SMS directly from a myPOS Smart device. 
+
+This functionality allows a merchant to create payment request and send it as a SMS directly from a myPOS Smart device.
+
 ##### 1. Perform Payment Request
 
  ```java
@@ -263,9 +272,10 @@ This functionality allows a merchant to create payment request and send it as a 
  }
 ```
 
-##### 2.  Handle the result
+##### 2. Handle the result
 
-The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the Payment request:
+The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of
+the Payment request:
 
 ```java
 @Override
@@ -296,7 +306,6 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 ### Void Request
 
-
 ##### 1. Perform void transaction
 
  ```java
@@ -316,9 +325,10 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-##### 2.  Handle the result
+##### 2. Handle the result
 
-The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the void request:
+The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of
+the void request:
 
 ```java
 @Override
@@ -348,7 +358,6 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```
 
 ### Pre-Authorization Request
-
 
 ##### 1. Perform the Pre-Authorization
 
@@ -397,7 +406,6 @@ MyPOSPreauthorizationCompletion preauthCompletion = MyPOSPreauthorizationComplet
 // Start the transaction
 MyPOSAPI.completePreauthorization(MainActivity.this, preauthCompletion, PREAUTH_COMPLETION_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
-
 
 ##### 3. Perform the Pre-Authorization Cancellation
 
@@ -453,13 +461,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```
 
 Read the pre-athorization code from transaction response:
+
 ```java
 String preauthCode = data.getStringExtra("preauth_code");
 ```
 
-
 ### PL GiftCard Request
-
 
 ##### 1. Perform the GiftCard Activation
 
@@ -486,7 +493,6 @@ MyPOSAPI.openGiftCardActivationActivity(MainActivity.this, activation, ACTIVATIO
 // Start the transaction
 MyPOSAPI.openGiftCardDeactivationActivity(MainActivity.this, UUID.randomUUID().toString(), GIFTCARD_DEACTIVATION_REQUEST_CODE);
 ```
-
 
 ##### 3. Perform the GiftCard Balance Check
 
@@ -526,7 +532,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 }
 ```
-
 
 ### SAM Module operation
 
@@ -593,6 +598,7 @@ public void showToast(final String toast)
 Printing the last transaction receipt is done by sending a broadcast.
 
 ##### 1. Send the broadcast
+
 ```java
 Intent intent = new Intent(MyPOSUtil.PRINT_LAST_RECEIPT_BROADCAST);
 // Whether or not a copy for the customer should be printed
@@ -634,18 +640,19 @@ public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
 }
 ```
 
-
 ### Print a custom receipt
 
 Just like reprinting the last receipt, printing a custom receipt is done by sending a broadcast.
 
 ##### 1. Send the print broadcast
 
-The printing broadcast accepts a list of PrinterCommand objects serialized as JSON. Gson can be used to serialize the objects.
+The printing broadcast accepts a list of PrinterCommand objects serialized as JSON. Gson can be used to serialize the
+objects.
 
 A PrinterCommand can be one of the following types:
 
-* HEADER – prints merchant data and time and date format:"DD/MM/YY;HH:mm:ss". The time and date must be sent with the broadcast
+* HEADER – prints merchant data and time and date format:"DD/MM/YY;HH:mm:ss". The time and date must be sent with the
+  broadcast
 * LOGO – prints the device’s logo.
 * TEXT – prints arbitrary text. Double width and height are available as parameters
 * FOOTER – prints a footer with a “Thank you” message
@@ -721,7 +728,6 @@ public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
 
 ```
 
-
 ### Barcode/QR Scanner
 
 Scanning barcodes or QR codes is done by sending a broadcast.
@@ -739,7 +745,8 @@ MyPOSAPI.sendExplicitBroadcast(context, intent);
 
 ##### 2. Handle the scanning result
 
-When the scanning is finished, the Payment core will return a broadcast with intent `com.mypos.broadcast.SCANNER_RESULT_BROADCAST`.
+When the scanning is finished, the Payment core will return a broadcast with
+intent `com.mypos.broadcast.SCANNER_RESULT_BROADCAST`.
 
 ```java
 public class ScannerResultBroadcastReceiver extends BroadcastReceiver {
@@ -820,19 +827,23 @@ When a transaction has finished, an Intent with the following data is returned t
 * date_time - Date and time of the transaction formatted as YYMMDDHHmmss
 * pan - Obfuscated PAN, e.g. "XXXX-XXXX-XXXX-8008"
 * pan_hash - a hash of the PAN
-* status (int) - one of the constants in the [TransactionProcessingResult](mypossmartsdk/src/main/java/com/mypos/smartsdk/TransactionProcessingResult.java) class
+* status (int) - one of the constants in
+  the [TransactionProcessingResult](mypossmartsdk/src/main/java/com/mypos/smartsdk/TransactionProcessingResult.java)
+  class
 * status_text - a textual representation of the status
 * card_brand - MASTERCARD, MAESTRO, VISA, VISA ELECTRON, VPAY, JCB, PAYPASS, PAYWAVE, UNIONPAY, BANCONTACT
 * card_entry_mode – method of presenting the card:
-	-	ENTRY_MODE_MAGSTR – mag stripe transaction
-	-	ENTRY_MODE_EMV – chip transaction
-	-	ENTRY_MODE_CONTACTLESS – contactless mag stripe transaction
-	-	ENTRY_MODE_CONTACTLESS_MCHIP – contactless chip transaction
-	-	ENTRY_MODE_MANUAL – Manual Key Entry (MO/TO) transaction
+    - ENTRY_MODE_MAGSTR – mag stripe transaction
+    - ENTRY_MODE_EMV – chip transaction
+    - ENTRY_MODE_CONTACTLESS – contactless mag stripe transaction
+    - ENTRY_MODE_CONTACTLESS_MCHIP – contactless chip transaction
+    - ENTRY_MODE_MANUAL – Manual Key Entry (MO/TO) transaction
 
-* response_code - response code returned by issuer. Values, different from "00", represent the reason for a declined transaction
+* response_code - response code returned by issuer. Values, different from "00", represent the reason for a declined
+  transaction
 * authorization_code - authorization code returned by issuer
-* signature_required (boolean) - true : signature row must be present on receipt , false : signature row must not be present on receipt
+* signature_required (boolean) - true : signature row must be present on receipt , false : signature row must not be
+  present on receipt
 * TSI - Transaction Status Indicator
 * TVR - Terminal Verification Result
 * AID - Application Identifier (card)
@@ -846,24 +857,24 @@ When a transaction has finished, an Intent with the following data is returned t
 * exchange_rate (double) - Dynamic currency conversion (DCC) exchange rate
 * TID - Terminal id
 * update_pending (boolean) - New update is available
-* resp_code - Payment request response code. Values, different from "00", represent the reason for a declined transaction
+* resp_code - Payment request response code. Values, different from "00", represent the reason for a declined
+  transaction
 * expire_date - Payment request expire date
 * merchant_data - Bundle with data from your myPOS profile used for printing the receipts. It contains:
-  * billing_descriptor - merchant billing descriptor
-  * address_line1 - merchant address line 1
-  * address_line2 - merchant address line 2
-  * MID - Merchant ID
-  * custom_receipt_row1 - custom receipt footer row 1
-  * custom_receipt_row2 - custom receipt footer row 2
+    * billing_descriptor - merchant billing descriptor
+    * address_line1 - merchant address line 1
+    * address_line2 - merchant address line 2
+    * MID - Merchant ID
+    * custom_receipt_row1 - custom receipt footer row 1
+    * custom_receipt_row2 - custom receipt footer row 2
 * installment_data - Bundle with data if user paid in installments. It contains:
-  * number (int) - selected number of installments
-  * interest_rate (double) - installment interest rate
-  * fee (double) - installment fee
-  * annual_percentage_rate (double) - installment annual percantage rate
-  * total_amount (double) - installments total amount
-  * first_installment_amount (double) - first installment amount
-  * subsequent_installment_amount (double) - subsequent installment amount
-
+    * number (int) - selected number of installments
+    * interest_rate (double) - installment interest rate
+    * fee (double) - installment fee
+    * annual_percentage_rate (double) - installment annual percantage rate
+    * total_amount (double) - installments total amount
+    * first_installment_amount (double) - first installment amount
+    * subsequent_installment_amount (double) - subsequent installment amount
 
 Note 1: Unless noted, extras in the bundle are Strings.
 

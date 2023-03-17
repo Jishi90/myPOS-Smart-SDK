@@ -1,13 +1,13 @@
 package com.mypos.smartsdk;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.ConditionVariable;
 import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.concurrent.TimeoutException;
 
@@ -55,7 +55,7 @@ public class SAMCard {
             throw new TimeoutException("Function did not return result in the required time period");
         }
 
-        if (mResult[0] == Activity.RESULT_OK) {
+        if (mResult[0] == AppCompatActivity.RESULT_OK) {
             return mResultValue[0];
         }
         else {
@@ -102,7 +102,7 @@ public class SAMCard {
             throw new TimeoutException("Function did not return result in the required time period");
         }
 
-        if (mResult[0] == Activity.RESULT_OK) {
+        if (mResult[0] == AppCompatActivity.RESULT_OK) {
             return mResultValue[0];
         }
         else {
@@ -147,7 +147,7 @@ public class SAMCard {
             throw new TimeoutException("Function did not return result in the required time period");
         }
 
-        if (mResult[0] == Activity.RESULT_OK) {
+        if (mResult[0] == AppCompatActivity.RESULT_OK) {
             return;
         }
         else {
@@ -195,7 +195,7 @@ public class SAMCard {
             throw new TimeoutException("Function did not return result in the required time period");
         }
 
-        if (mResult[0] == Activity.RESULT_OK) {
+        if (mResult[0] == AppCompatActivity.RESULT_OK) {
             return mResultValue[0];
         }
         else {
